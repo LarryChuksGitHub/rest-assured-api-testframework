@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="listeners.FrameworkListener"></listener>
+    </listeners>
+    <test parallel="methods" thread-count="3" preserve-order="true" name="/Users/hilarychukwuji/Documents/IdeaProjects/rest-assured">
+        <classes>
+            <class name="tests.DeleteRequest">
+                <methods>
+                    <include name="deleteEmployee" />
+                </methods>
+            </class>
+            <class name="tests.GetRequest">.
+                <methods>
+                    <include name="testGetEmployees" />
+                    <include name="testGetOneEmployee" />
+                </methods>
+            </class>
+            <class name="tests.PostRequest">
+                <methods>
+                    <include name="addEmployee" />
+                    <include name="addEmployeeAndValidateSchema" />
+                    <include name="addEmployee3" />
+                    <include name="addEmployee4" />
+                    <include name="addEmployeeJson" />
+                </methods>
+            </class>
+            <class name="tests.PostRequestPojo">
+                <methods>
+                    <include name="postRequest" />
+                    <include name="postRequestLombok" />
+                    <include name="postRequestEmployee" />
+                    <include name="postRequestEmployeeWithJson" />
+                </methods>
+            </class>
+            <class name="tests.PutRequest">
+                <methods>
+                    <include name="testUpdateEmployee" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

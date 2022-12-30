@@ -1,0 +1,22 @@
+[
+{
+  "id": "employeeid",
+  "email": "lindsay.ferguson@reqres.in",
+  "firstname": "fname",
+  "lastname": "lname",
+  "avatar": "https://reqres.in/img/faces/8-image.jpg",
+  "jobs":["tester", "teacher"],
+  "foods" : {
+    "breakfast": "Bread",
+    "Lunch": "Spagetti",
+    "Dinner": ["Milk","Beans"]
+  },
+  "marks" : {
+    "firstterm" : {"maths": "good" },
+    "Secondterm" : {"maths": "poor"}
+  }
+
+}
+]
+
+

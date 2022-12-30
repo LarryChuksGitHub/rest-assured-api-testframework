@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "jobs": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "foods": {
+          "type": "object",
+          "properties": {
+            "breakfast": {
+              "type": "string"
+            },
+            "Lunch": {
+              "type": "string"
+            },
+            "Dinner": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "required": [
+            "breakfast",
+            "Lunch",
+            "Dinner"
+          ]
+        },
+        "marks": {
+          "type": "object",
+          "properties": {
+            "firstterm": {
+              "type": "object",
+              "properties": {
+                "maths": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "maths"
+              ]
+            },
+            "Secondterm": {
+              "type": "object",
+              "properties": {
+                "maths": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "maths"
+              ]
+            }
+          },
+          "required": [
+            "firstterm",
+            "Secondterm"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "firstname",
+        "lastname",
+        "avatar",
+        "jobs",
+        "foods",
+        "marks"
+      ]
+    }
+  ]
+}
