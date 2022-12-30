@@ -42,7 +42,7 @@ public class AuthenticationwithGitHubAndPostmann {
     @Test
     public void testAPIKeyAuth(){
         var reposnse = given()
-                .header("X-API-Key","PMAK-63aac7360b07051b6a3ffbf1-e48d0244f45ab46a31580e37d7664df096")
+                .header("X-API-Key","XXXXXXXXX")
                 .log()
                 .all()
                 .get("https://api.getpostman.com/workspaces");
@@ -54,7 +54,7 @@ public class AuthenticationwithGitHubAndPostmann {
     @Test
     public void testGithubGetRepos(){
        var response = given()
-                .header("Authorization","Bearer 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")
+                .header("Authorization","Bearer XXXXXXXXXXX")
                 .queryParam("per_page",1)
                 //.queryParam("visibility","public")
                 .log()
@@ -81,7 +81,7 @@ public class AuthenticationwithGitHubAndPostmann {
        var finalJson = replacedDescrition;
 
        var response = given()
-                .header("Authorization","Bearer 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")
+                .header("Authorization","Bearer XXXXXXXXXXXXX")
                 .log()
                 .all()
                 .body(finalJson)
