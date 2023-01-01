@@ -1,6 +1,5 @@
 package report;
 
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.markuputils.CodeLanguage;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.Markup;
@@ -9,8 +8,6 @@ import io.restassured.http.Headers;
 import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
-
-import java.lang.reflect.Method;
 
 import static com.aventstack.extentreports.markuputils.ExtentColor.*;
 
@@ -29,7 +26,7 @@ public final class ExtentLogger {
     public static void skip(String message){
         ExtentThreadLocalManager.getextentTestThreadLocal().skip(message);
     }
-    public static void info(Markup message){
+    public static void info(Markup message, CodeLanguage json){
         ExtentThreadLocalManager.getextentTestThreadLocal().info(message);
     }
     public static void requestInfo(String message){
@@ -42,7 +39,6 @@ public final class ExtentLogger {
 
     public static void logPassResponse(String message){
         ExtentThreadLocalManager.getextentTestThreadLocal().pass(MarkupHelper.createCodeBlock(message, CodeLanguage.JSON));
-       // (MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON))
     }
     public static void logRequest(String message){
         ExtentThreadLocalManager.getextentTestThreadLocal().pass(MarkupHelper.createCodeBlock(message, CodeLanguage.JSON));
@@ -59,7 +55,11 @@ public final class ExtentLogger {
         ExtentThreadLocalManager.getextentTestThreadLocal().skip(MarkupHelper.createCodeBlock(message, CodeLanguage.JSON));
     }
 
-    public static void logReuest(Headers message){
+    public static void logSchema(String message){
+        ExtentThreadLocalManager.getextentTestThreadLocal().skip(MarkupHelper.createCodeBlock(message, CodeLanguage.JSON));
+    }
+
+    public static void logRequest(Headers message){
         ExtentThreadLocalManager.getextentTestThreadLocal().info(MarkupHelper.createCodeBlock(String.valueOf(message), CodeLanguage.JSON));
     }
 
@@ -75,9 +75,13 @@ public final class ExtentLogger {
 
     }
 
-    public static String logReuestBody(RequestSpecification request) {
+    public static void assignTestDescription(String testDecritpion){
+        ExtentThreadLocalManager.getextentTestThreadLocal().info(testDecritpion);
+    }
+
+    public static String logRequestBody(RequestSpecification request) {
         QueryableRequestSpecification requestQuery = SpecificationQuerier.query(request);
-        String requestBody = requestQuery.getBody().toString();
+        String requestBody = requestQuery.getBody();
         return requestBody;
     }
 

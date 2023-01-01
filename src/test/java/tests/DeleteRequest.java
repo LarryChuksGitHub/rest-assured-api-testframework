@@ -1,5 +1,6 @@
 package tests;
 
+import annotations.FrameworkAnnotation;
 import com.aventstack.extentreports.markuputils.CodeLanguage;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import io.restassured.http.ContentType;
@@ -7,32 +8,28 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import report.ExtentReport;
+import report.ExtentLogger;
 import requestbuilder.RequestBuilder;
 
 import java.lang.reflect.Method;
 
-import static io.restassured.RestAssured.given;
 
 public class DeleteRequest extends BaseTest {
-    String uRL = "/Employees";
+    String uRL = "/employees";
     Response response = null;
 
-   // @Test
+    //@FrameworkAnnotation
+    @Test(description = "Test to delete Employee")
     public void deleteEmployee(Method method){
        response= RequestBuilder.buildRequestForDeleteCalls()
-                .pathParam("id",10)
+                .pathParam("id",1)
                 .delete(uRL+"/{id}");
 
         response.prettyPrint();
-       // ExtentLogger.pass(method.getName()+MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
+        //ExtentLogger.pass(method.getName() +" Deletion was successful");
         var responseTime = response.getTime();
         System.out.println("This is the response time: " + responseTime);
         System.out.println("This is the status code: " + response.statusCode());
-        Assert.assertEquals(response.statusCode(),200,"did not add user");
-
-
-
-
+        Assert.assertEquals(response.statusCode(),200,"did not delete employee");
     }
 }

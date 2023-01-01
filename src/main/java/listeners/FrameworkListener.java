@@ -26,13 +26,13 @@ public class FrameworkListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        //Method method = null;
         ExtentReport.createReport(result.getName());
-       //String [] authors = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotation.class).assignAuthor();
-       // String [] categories = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotation.class).assignCategory();
-        //ExtentLogger.assignAuthor(authors);
-       // ExtentLogger.assignAuthor(categories);
-       // String testDescription = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class).description();
+       String [] authors = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotation.class).assignAuthor();
+        String [] categories = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotation.class).assignCategory();
+       ExtentLogger.assignAuthor(authors);
+      ExtentLogger.assignAuthor(categories);
+      String testDescription = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class).description();
+        ExtentLogger.assignTestDescription(testDescription);
 
     }
 

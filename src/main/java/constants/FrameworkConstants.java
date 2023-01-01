@@ -26,7 +26,4 @@ public final class FrameworkConstants {
     private final String getSchemaPath = systemProperty+"schemas/schema.json";
     private final String getReportOutputPath = systemProperty+"reportoutputs/"+time+"testreport.html";
 
-
-
-
 }

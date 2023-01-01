@@ -1,62 +1,58 @@
 package tests;
 
+import annotations.FrameworkAnnotation;
+import com.aventstack.extentreports.markuputils.CodeLanguage;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.github.javafaker.Faker;
 import constants.FrameworkConstants;
-import employee.EmployeeOld;
-import employee.EmployeeLombok;
-import employee.Foods;
+import employee.*;
 import io.restassured.response.Response;
+import lombok.SneakyThrows;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pojo.Employee;
 
+import report.ExtentLogger;
+import requestbuilder.RequestBodyBuilder;
 import requestbuilder.RequestBuilder;
 import utils.APiUtils;
 import utils.RandomUtils;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
 public class PostRequestPojo extends BaseTest{
-    // POJO Plain old Java Object
 
-    String uRL = "/Employees";
+    String uRL = "/employees";
     Response response = null;
     private int statuscode = 0;
     private int responseTime = 0;
 
 
+    @SneakyThrows
     @Test
+    @FrameworkAnnotation
     public void postRequest(Method method){
-        List<Object> outsideList = new ArrayList<>();
-        Foods foods = new Foods("Bread","Rice",Arrays.asList("Milk","Beans","Avocado"));
-        EmployeeOld employeeOldJson = new EmployeeOld(
-                new Faker().number().numberBetween(10,97535353),"larry@gmail.com","larry","chuks","www.image",
-                Arrays.asList("Tester","Teacher","Driver"),foods);
-        outsideList.add(employeeOldJson);
 
        response = RequestBuilder.buildRequestForPostCalls()
-                .body(outsideList)
+                .body(RequestBodyBuilder.bodyBuilderForPostRequest())
                 .post(uRL);
-
-        response.prettyPrint();
         statuscode = response.statusCode();
         var responseTime = response.getTime();
 
-        //ExtentLogger.pass(method.getName()+MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
 
-        //ExtentReport.getTestReport(method.getName()).pass(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
         System.out.println("This is the response time: " + responseTime);
         System.out.println("This is the status code: " + statuscode);
         Assert.assertEquals(statuscode,201,"did not add user");
-
+        var details = response.as(EmployeeDetails.class);
+        System.out.println(details);
+        ExtentLogger.logPassResponse(response.asPrettyString());
     }
 
     @Test
+    @FrameworkAnnotation
     public void postRequestLombok(Method method){
         Foods foods = new Foods("Bread","Rice",Arrays.asList("Milk","Beans","Avocado"));
         var jobs = Arrays.asList("Tester","Teacher","Driver");
@@ -70,9 +66,6 @@ public class PostRequestPojo extends BaseTest{
                 .body(employeeJson)
                 .post(uRL);
 
-
-       // ExtentLogger.pass(method.getName()+MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
-       // ExtentReport.getTestReport(method.getName()).pass(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
         response.prettyPrint();
         statuscode = response.statusCode();
         var responseTime = response.getTime();
@@ -81,6 +74,7 @@ public class PostRequestPojo extends BaseTest{
         Assert.assertEquals(statuscode,201,"did not add user");
 
         var des =response.as(EmployeeLombok.class);
+
         String breakfast = des.getFoods().getBreakfast().toString();
         String name = des.getFirstname();
         String email = des.getEmail();
@@ -100,11 +94,14 @@ public class PostRequestPojo extends BaseTest{
         System.out.println("This is the response time: " + responseTime);
         System.out.println("This is the status code: " + statuscode);
         Assert.assertEquals(statuscode,201,"did not add user");
+        ExtentLogger.pass(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
+
 
 
     }
 
     @Test
+    @FrameworkAnnotation
     public void postRequestEmployee(Method method){
         var firstname = RandomUtils.getFirstname();
         var lastname =RandomUtils.getLastname();
@@ -129,15 +126,15 @@ public class PostRequestPojo extends BaseTest{
         statuscode = response.statusCode();
         responseTime = (int) response.getTime();
 
-        //ExtentLogger.pass(method.getName()+MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
-
-        //ExtentReport.getTestReport(method.getName()).pass(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
         System.out.println("This is the response time: " + responseTime);
         System.out.println("This is the status code: " + statuscode);
         Assert.assertEquals(statuscode,201,"did not add user");
+        ExtentLogger.pass(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
+
     }
 
     @Test
+    @FrameworkAnnotation
     public void postRequestEmployeeWithJson(Method method) {
 
         var filePath =APiUtils.getJsonFileAndReadIntoString(FrameworkConstants.getInstance().getGetJsonInputFile());
@@ -164,7 +161,7 @@ public class PostRequestPojo extends BaseTest{
         responseTime = (int) response.getTime();
 
 
-      //ExtentLogger.pass(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
+      ExtentLogger.pass(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
         System.out.println("This is the response time: " + responseTime);
         System.out.println("This is the status code: " + statuscode);
         System.out.println("The F name: " + name);
@@ -175,24 +172,3 @@ public class PostRequestPojo extends BaseTest{
 
 }
 
-
-
-/*
-
-[
-        {
-        "id": 8432,
-        "email": "lindsay.ferguson@reqres.in",
-        "first_name": "Lindsay",
-        "last_name": "Ferguson",
-        "avatar": "https://reqres.in/img/faces/8-image.jpg",
-        "jobs":["tester", "teacher"],
-        "foods" : {
-        "breakfast": "Bread",
-        "Lunch": "Spagetti",
-        "Dinner": ["Milk","Beans"]
-        }
-        }
-        ]
-
- */

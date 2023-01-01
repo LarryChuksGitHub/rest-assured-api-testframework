@@ -29,13 +29,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class GetRequest  extends BaseTest{
     private Response response = null;
+    private String url ="/employees" ;
 
-    //@FrameworkAnnotation(assignAuthor = {"larry,Ebu"},assignCategory = {"calls", "smoke"})
+    @FrameworkAnnotation(assignAuthor = {"larry,Ebu"},assignCategory = {"calls", "smoke"})
     @Test
     public void testGetEmployees() {
-       // ExtentLogger.assignAuthor("Ebu Tester");
         response = RequestBuilder.buildRequestForGetCalls()
-                .get(" /employees");
+                .get(url );
 
 
         Headers headers = response.headers();
@@ -56,12 +56,12 @@ public class GetRequest  extends BaseTest{
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(size)
                 .isPositive();
-      // ExtentLogger.pass(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
-      //  ExtentLogger.logPassResponse(response.asPrettyString());
+        ExtentLogger.info("This is all Employees");
+      ExtentLogger.pass(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
 
     }
-    
-    @Test(dataProvider = "data")
+    @FrameworkAnnotation
+    @Test(dataProvider = "data", description = "List details of one employee")
     public void testGetOneEmployee(Map<String,Object> data, Method method) {
 
         String firstname = (String)(data.get("first_name"));
@@ -70,24 +70,11 @@ public class GetRequest  extends BaseTest{
         System.out.println("the firstname is: " + firstname);
         Response response = RequestBuilder.buildRequestForGetCalls()
                 .queryParam("id", data.get("id"))
-                .get("/employees/");
-//        Headers headers = response.headers();
-//        for (Header header : headers) {
-//            var key = header.getName();
-//            var value = header.getValue();
-//            // System.out.println(" key " + key + " : "+ " value " + value);
-//        }
+                .get(url);
 
         System.out.println("This is the content type: " + response.contentType());
         System.out.println("response time is: " + response.getTime());
         System.out.println("This is the status code: " + response.statusCode());
-        //test.pass(MarkupHelper.createCodeBlock(json, CodeLanguage.JSON));
-
-        //ExtentReport.getTestReport(method.getName()).pass(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON));;
-//        ExtentReport.getTestReport(method.getName()).info("Info to the "+ method.getName() + response.prettyPrint());
-//        ExtentReport.getTestReport(method.getName()).fail("The test: "+ method.getName() +"failed" +response.prettyPrint());
-//        ExtentReport.getTestReport(method.getName()).skip("The test: "+ method.getName() +"failed" +response.prettyPrint());
-
 
 
         var name = response.jsonPath().getString("[0].first_name");
@@ -97,7 +84,6 @@ public class GetRequest  extends BaseTest{
                 .contains(firstname);
         Assert.assertEquals(response.statusCode(), 200, "incorrect status code");
         ExtentLogger.pass(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
-        //ExtentLogger.pass(String.valueOf(MarkupHelper.createCodeBlock(response.prettyPrint(), CodeLanguage.JSON)));;
 
     }
 

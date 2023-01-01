@@ -6,7 +6,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "integer"
         },
         "email": {
           "type": "string"
@@ -37,10 +37,10 @@
             "breakfast": {
               "type": "string"
             },
-            "Lunch": {
+            "lunch": {
               "type": "string"
             },
-            "Dinner": {
+            "dinner": {
               "type": "array",
               "items": [
                 {
@@ -54,8 +54,8 @@
           },
           "required": [
             "breakfast",
-            "Lunch",
-            "Dinner"
+            "lunch",
+            "dinner"
           ]
         },
         "marks": {
@@ -72,7 +72,7 @@
                 "maths"
               ]
             },
-            "Secondterm": {
+            "secondterm": {
               "type": "object",
               "properties": {
                 "maths": {
@@ -86,7 +86,7 @@
           },
           "required": [
             "firstterm",
-            "Secondterm"
+            "secondterm"
           ]
         }
       },
